@@ -6,12 +6,22 @@
 <div class="card">
 @include('partials.discussion-header')
 <div class="card-body">
-<div class="text-center">
+<div class="text-left">
              <strong>
                 {{$discussion->title}}
                 </strong>
                 <hr>
 {!! $discussion->content !!}
+@if($discussion->bestReply)
+<div class="card bg-success my-5" style="color:white">
+<div class="card-header">
+has a best reply
+ </div>
+ <div class="card-body">
+ {!! $discussion->bestReply->content!!}
+ </div>
+ </div>
+@endif
 </div>
 
 </div>
@@ -27,12 +37,27 @@
 
                   <span> {{ $reply->owner->name}} </span>
             </div>
+
+         <div>
+         @if(auth()->user()->id == $discussion->user_id)
+
+            <form action="{{ route('discussions.best-reply',[ 'discussion' => $discussion->slug, 'reply' => $reply->id])}}" method="POST">
+               
+               @csrf
+               <button type="submit" class="btn btn-sm btn-info"> Mark as Best Reply </button>
+
+               </form>
+
+               @endif
+         </div>
        </div>
     </div>
 
 <div class="card-body">
 
     {!! $reply->content !!}
+
+   
 
 </div>
 
@@ -49,7 +74,7 @@ Add a Reply
 </div>
 <div class="card-body">
 @auth
-<form action="{{ route('replies.store', $discussion->slug)}}" method="POST">
+<form action="{{ route('replies.store', $discussion->slug)}}" method="POST"  >
 @csrf
 <input type="hidden" name="content" id="content">
 <trix-editor input="content"></trix-editor>

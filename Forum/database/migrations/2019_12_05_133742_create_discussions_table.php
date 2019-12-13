@@ -24,6 +24,8 @@ class CreateDiscussionsTable extends Migration
 
             $table->string('slug')->unique();
 
+            $table->integer('reply_id')->nullable();
+
             $table->integer('channel_id');
 
             $table->timestamps();

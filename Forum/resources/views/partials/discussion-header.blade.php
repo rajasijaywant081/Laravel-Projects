@@ -9,6 +9,7 @@
           
                 <div>
                            <a href="{{ route('discussions.show', $discussion->slug)}}" class="btn btn-success btn-sm">View</a>
+                           <a href="{{ url('discussions')}}" class="btn btn-success btn-sm">Home</a>
                </div>
            </div>
            </div>
