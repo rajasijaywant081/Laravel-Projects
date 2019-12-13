@@ -18,7 +18,21 @@ class Discussion extends Model
         return $this->hasMany(Reply::class);
     }
 
+public function scopeFilterByChannel($builder)
+{
+    if (request()->query('channel'))
+    {
+        $channel= Channel::where('slug',request()->query('channel'))->first();
 
+        if($channel)
+        {
+            return $builder->where('channel_id',$channel->id);
+        }
+
+        return $builder;
+    }
+    return $builder;
+}
 
 public function getRouteKeyName()
 {
